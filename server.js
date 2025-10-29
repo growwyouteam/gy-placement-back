@@ -97,29 +97,16 @@ app.use(errorHandler);
 
 // Start server
 app.listen(PORT, async () => {
-  console.log(`
-╔═══════════════════════════════════════════════════════╗
-║                                                       ║
-║         🚀 GrowwYou API Server Running 🚀            ║
-║                                                       ║
-║  Environment: ${process.env.NODE_ENV || 'development'}                              ║
-║  Port: ${PORT}                                          ║
-║  URL: http://localhost:${PORT}                        ║
-║                                                       ║
-╚═══════════════════════════════════════════════════════╝
-  `);
-  
   // Seed initial jobs if database is empty
   try {
     await JobModel.seedJobs();
   } catch (error) {
-    console.error('Error seeding jobs:', error.message);
+    // Error seeding jobs handled silently
   }
 });
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
-  console.error('Unhandled Promise Rejection:', err);
   // Close server & exit process
   process.exit(1);
 });
